@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework',
 
-    'cursos'
+    'courses'
 ]
 
 MIDDLEWARE = [
