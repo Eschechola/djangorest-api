@@ -16,7 +16,7 @@ class AverageSerializer(serializers.ModelSerializer):
             'name',
             'email',
             'comment',
-            'average',
+            'rate',
             'publishedAt',
             'isActive'
         }

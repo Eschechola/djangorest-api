@@ -1,3 +1,13 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Course, Average
+
+
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ('title', 'url', 'publishedAt', 'updatedAt', 'isActive')
+
+
+@admin.register(Average)
+class AverageAdmin(admin.ModelAdmin):
+    list_display = ('courseId', 'name', 'email', 'rate', 'publishedAt', 'updatedAt', 'isActive')

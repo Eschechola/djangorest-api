@@ -6,7 +6,7 @@ from django.db import models
 class Base(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     publishedAt = models.DateTimeField(auto_now_add=True)
-    updatedAt = models.DateTimeField(auto_now_add=True)
+    updatedAt = models.DateTimeField(auto_now=True)
     isActive = models.BooleanField(default=True)
 
     class Meta:
@@ -30,7 +30,7 @@ class Average(Base):
     name = models.CharField(max_length=255)
     email = models.EmailField()
     comment = models.TextField(blank=True, default='')
-    average = models.DecimalField(max_digits=2, decimal_places=1)
+    rate = models.DecimalField(max_digits=2, decimal_places=1)
 
     class Meta:
         verbose_name = 'Average'
@@ -38,5 +38,5 @@ class Average(Base):
         unique_together = ['email', 'courseId']
 
     def __str__(self):
-        return f'{self.name} average course {self.courseId} with {self.average}'
+        return f'{self.name} average course {self.courseId} with {self.rate}'
 
