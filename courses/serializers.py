@@ -10,26 +10,11 @@ class AverageSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'email': {'write_only': True}
         }
-        fields = {
-            'id',
-            'courseid'
-            'name',
-            'email',
-            'comment',
-            'rate',
-            'publishedAt',
-            'isActive'
-        }
+        fields = '__all__'
 
 
 class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = {
-            'id',
-            'title',
-            'url',
-            'publishedAt',
-            'isActive'
-        }
+        fields = '__all__'
