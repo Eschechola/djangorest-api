@@ -14,6 +14,20 @@ class AverageSerializer(serializers.ModelSerializer):
 
 
 class CourseSerializer(serializers.ModelSerializer):
+    #nested relationship
+    #returns all relations of averages
+    averages = AverageSerializer(many=True, read_only=True)
+
+    #hyperlinked related field
+    #returns links of averages
+    # averages = serializers.HyperlinkedRelatedField(
+    #     many=True,
+    #     read_only=True,
+    #     view_name='average-detail')
+
+    #primary key related field
+    #returns primary keys of averages
+    #averages = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Course
