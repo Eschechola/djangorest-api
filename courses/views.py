@@ -95,8 +95,15 @@ class CourseViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, url_path="get-averages", methods=["get"])
     def get_averages(self, request, pk=None):
-        course = self.get_object()
-        serializer = AverageSerializer(course.averages.all(), many=True)
+        self.pagination_class.page_size = 1
+        averages = Average.objects.filter(courseId = pk)
+        page = self.paginate_queryset(averages)
+
+        if page is not None:
+            serializer = AverageSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = AverageSerializer(averages, many=True)
         return Response(serializer.data)
 
 
