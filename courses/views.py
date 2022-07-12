@@ -4,6 +4,7 @@ from rest_framework import mixins;
 from rest_framework.generics import get_object_or_404
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.authentication import TokenAuthentication
 
 from .models import Course, Average
 from .serializers import CourseSerializer, AverageSerializer
@@ -59,7 +60,6 @@ class CoursesApiView(generics.ListCreateAPIView):
 class CourseApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
-
 
 class AveragesApiView(generics.ListCreateAPIView):
     queryset = Average.objects.all()
