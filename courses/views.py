@@ -1,13 +1,14 @@
-from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework import mixins;
 from rest_framework.generics import get_object_or_404
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.authentication import TokenAuthentication
+
+from rest_framework import permissions
 
 from .models import Course, Average
 from .serializers import CourseSerializer, AverageSerializer
+from .permissions import SuperUser
 
 """
 API V1
@@ -52,36 +53,36 @@ API V2
 
 """
 
-class CoursesApiView(generics.ListCreateAPIView):
-    queryset = Course.objects.all()
-    serializer_class = CourseSerializer
+# class CoursesApiView(generics.ListCreateAPIView):
+#     queryset = Course.objects.all()
+#     serializer_class = CourseSerializer
 
 
-class CourseApiView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Course.objects.all()
-    serializer_class = CourseSerializer
+# class CourseApiView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Course.objects.all()
+#     serializer_class = CourseSerializer
 
-class AveragesApiView(generics.ListCreateAPIView):
-    queryset = Average.objects.all()
-    serializer_class = AverageSerializer
+# class AveragesApiView(generics.ListCreateAPIView):
+#     queryset = Average.objects.all()
+#     serializer_class = AverageSerializer
 
-    # get queryset busca uma lista 
-    def get_queryset(self):
-        if self.kwargs.get('course_pk'):
-            return self.queryset.filter(courseId=self.kwargs.get('course_pk'))
-        return self.queryset.all()
+#     # get queryset busca uma lista 
+#     def get_queryset(self):
+#         if self.kwargs.get('course_pk'):
+#             return self.queryset.filter(courseId=self.kwargs.get('course_pk'))
+#         return self.queryset.all()
 
-class AverageApiView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Average.objects.all()
-    serializer_class = AverageSerializer
+# class AverageApiView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Average.objects.all()
+#     serializer_class = AverageSerializer
 
-    #get object busca somente um objeto
-    def get_object(self):
-        if self.kwargs.get('course_pk'):
-            return get_object_or_404(self.get_queryset(),
-                courseId = self.kwargs.get('course_pk'),
-                pk = self.kwargs.get('average_pk'))
-        return get_object_or_404(self.queryset(), pk=self.kwargs.get('average_pk'))
+#     #get object busca somente um objeto
+#     def get_object(self):
+#         if self.kwargs.get('course_pk'):
+#             return get_object_or_404(self.get_queryset(),
+#                 courseId = self.kwargs.get('course_pk'),
+#                 pk = self.kwargs.get('average_pk'))
+#         return get_object_or_404(self.queryset(), pk=self.kwargs.get('average_pk'))
 
 
 """
@@ -90,6 +91,9 @@ API V3
 """
 
 class CourseViewSet(viewsets.ModelViewSet):
+    permission_classes = (
+        SuperUser,
+        permissions.DjangoModelPermissions,)
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
