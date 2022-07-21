@@ -12,6 +12,11 @@ class AverageSerializer(serializers.ModelSerializer):
         }
         fields = '__all__'
 
+    def validate_rate(self, value):
+        if value in range (1, 6):
+            return value
+        raise serializers.ValidationError('Average can be between 1 and 5')
+
 
 class CourseSerializer(serializers.ModelSerializer):
     #nested relationship
