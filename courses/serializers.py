@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.db.models import Avg
 
 from .models import Course, Average
 
@@ -22,6 +23,8 @@ class CourseSerializer(serializers.ModelSerializer):
     #nested relationship
     #returns all relations of averages
     averages = AverageSerializer(many=True, read_only=True)
+    
+    averages_media = serializers.SerializerMethodField() 
 
     #hyperlinked related field
     #returns links of averages
@@ -37,3 +40,10 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = '__all__'
+
+    def get_averages_media(self, obj):
+        media = obj.averages.aggregate(Avg('average')).get('average__avg')
+
+        if media is None:
+            return 0
+        return round(media * 2) / 2
